@@ -946,9 +946,6 @@ address {
     transform: scale(1.05);
 }
 
-
-}
-
 .gallery-item-info {
     padding: var(--spacing-md);
 }
@@ -1389,9 +1386,6 @@ address {
     }
     
     h1 { font-size: 24pt; }
-    h2 { font-size: 18pt; }
-    h3 { font-size: 14pt; }
-}
     h2 { font-size: 18pt; }
     h3 { font-size: 14pt; }
 }
