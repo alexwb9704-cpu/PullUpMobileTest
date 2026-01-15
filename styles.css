@@ -530,8 +530,26 @@ address {
 }
 
 .value-icon {
-    font-size: 3rem;
-    margin-bottom: var(--spacing-md);
+    width: 64px;
+    height: 64px;
+    margin: 0 auto var(--spacing-md);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(74, 144, 226, 0.05));
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.value-card:hover .value-icon {
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.15), rgba(74, 144, 226, 0.1));
+    transform: scale(1.05);
+}
+
+.value-icon svg {
+    width: 36px;
+    height: 36px;
 }
 
 .value-card h3 {
