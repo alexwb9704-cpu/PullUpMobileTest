@@ -148,8 +148,20 @@ address {
 
 .brand-link {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     color: var(--color-navy);
+}
+
+.brand-logo {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
 }
 
 .brand-link:hover {
