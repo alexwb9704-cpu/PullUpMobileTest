@@ -73,60 +73,78 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ===================================
-// Contact Form Handling
+// Contact Form Handling (Netlify Forms)
 // ===================================
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
-    
-    if (contactForm) {
+    const formError = document.getElementById('formError');
+    const submitButton = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
+
+    if (contactForm && submitButton) {
         contactForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            
+
             // Get form data
             const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData);
-            
+
             // Basic validation
-            if (!data.name || !data.phone || !data.service || !data.location) {
+            const name = formData.get('name');
+            const phone = formData.get('phone');
+            const service = formData.get('service');
+            const location = formData.get('location');
+            const email = formData.get('email');
+
+            if (!name || !phone || !service || !location) {
                 alert('Please fill in all required fields.');
                 return;
             }
-            
-            // In a real implementation, you would send this to a server
-            // For now, we'll just simulate a successful submission
-            console.log('Form submitted:', data);
-            
-            // Show success message
-            contactForm.style.display = 'none';
-            formSuccess.style.display = 'block';
-            
-            // Optionally, scroll to success message
-            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // In a real implementation, you might want to:
-            // 1. Send data to a server endpoint
-            // 2. Send an email notification
-            // 3. Integrate with a CRM
-            // Example:
-            /*
-            fetch('/api/contact', {
+
+            // Validate email if provided
+            if (email && !isValidEmail(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            // Disable submit button and show loading state
+            submitButton.disabled = true;
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Sending...';
+
+            // Submit to Netlify
+            fetch('/', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(formData).toString()
             })
-            .then(response => response.json())
-            .then(data => {
-                contactForm.style.display = 'none';
-                formSuccess.style.display = 'block';
+            .then(response => {
+                if (response.ok) {
+                    // Success - show success message
+                    contactForm.style.display = 'none';
+                    formSuccess.style.display = 'block';
+                    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    // Log for analytics (optional)
+                    console.log('Form submitted successfully to Netlify');
+                } else {
+                    throw new Error('Form submission failed');
+                }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error submitting your form. Please try again or call us directly.');
+                // Error - show error message
+                console.error('Form submission error:', error);
+                contactForm.style.display = 'none';
+                formError.style.display = 'block';
+                formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Re-enable form after 3 seconds
+                setTimeout(() => {
+                    contactForm.style.display = 'block';
+                    formError.style.display = 'none';
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }, 3000);
             });
-            */
         });
     }
 });

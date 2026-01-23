@@ -1206,6 +1206,24 @@ address {
     margin-bottom: 0;
 }
 
+.form-error {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background-color: #fef2f2;
+    border: 2px solid #dc2626;
+    border-radius: var(--border-radius);
+}
+
+.form-error h3 {
+    color: #991b1b;
+    margin-bottom: var(--spacing-sm);
+}
+
+.form-error p {
+    color: #b91c1c;
+    margin-bottom: 0;
+}
+
 @media (max-width: 968px) {
     .contact-layout {
         grid-template-columns: 1fr;
